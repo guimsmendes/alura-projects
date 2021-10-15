@@ -1,0 +1,87 @@
+db.produtos.insertOne({
+    marca: "Apple",
+    modelo: "iPhone 11",
+    descricao: "O celular mais novo da Apple com duas",
+    sistema: "iOS 13",
+    memoria: "128GB",
+    chips: 1,
+    preco: NumberDecimal("4999.99"),
+})
+
+db.clientes.insertOne({
+    nome: "Giovanni",
+    endereco: "Rua Vergueiro, 3185",
+    email: "giovanni@example.com",
+    senha: "giovanni123"
+})
+
+db.clientes.insertOne({
+    nome: "Ricardo",
+    endereco: "Rua do Ouvidor, 50",
+    email: "ricardo@example.com",
+    senha: "ricardo123"
+})
+
+db.produtos.update({
+    modelo: "iPhone 11"
+}, {
+    $set: {
+        quantidade: 7
+    }
+})
+
+db.clientes.updateMany({},{
+    $set: {
+        carrinho: {
+            produtos: []
+        }
+    }
+})
+
+db.produtos.findOneAndUpdate({
+    modelo: "iPhone 11",
+    quantidade: {
+        $gt: 0
+    }
+},{
+    $inc: {
+        quantidade: -1
+    }
+},{
+    projection: {
+        marca: 1,
+        modelo: 1,
+        preco: 1
+    }
+})
+
+db.clientes.aggregate([
+    {
+        $match: {
+            nome: "Ricardo"
+        }
+    },
+    {
+        $project: {
+            _id: 0,
+            id_cliente: "$_id",
+            endereco: "$endereco",
+            data: ISODate(),
+            produtos: "$carrinho.produtos",
+            valorTotal: {
+                $sum: "$carrinho.produtos.preco"
+            }
+        }
+    }, {
+        $merge: "pedidos"
+    }
+]).pretty()
+
+db.clientes.update({
+    nome: "Ricardo"
+}, {
+    $set: {
+        "carrinho.produtos": []
+    }
+})
+

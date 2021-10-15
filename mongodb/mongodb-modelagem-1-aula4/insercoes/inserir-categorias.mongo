@@ -1,0 +1,21 @@
+
+
+db.artigos.updateOne({ titulo: "Carreira em TI: quais os profissionais mais requisitados no Brasil?"}, { $set: {
+    categorias: ["Programação", "Carreira"] }
+})
+
+db.artigos.updateOne({ titulo: "Visualizando dados de frequência"}, { $set: {
+    categorias: ["Ciência de Dados", "Python"] }
+})
+
+db.artigos.updateOne({ titulo: "Entendendo a geração de chaves com JPA"}, { $set: {
+    categorias: ["Programação", "Java"] }
+})
+
+db.artigos.updateOne({ titulo: "Criando e publicando uma biblioteca Javascript no NPM"}, { $set: {
+    categorias: ["JavaScript", "Bibliotecas"] }
+})
+
+db.artigos.updateOne({ slug: "Faculdade e diploma são necessários para programar?"}, { $set: {
+    categorias: ["Carreira"] }
+})
